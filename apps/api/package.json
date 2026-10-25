@@ -1,0 +1,36 @@
+{
+  "name": "@hirebit/api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "start": "node dist/src/main.js",
+    "lint": "eslint src test",
+    "typecheck": "tsc --noEmit",
+    "test": "tsc -p tsconfig.json && node --test dist/test/*.test.js",
+    "build": "tsc -p tsconfig.build.json",
+    "db:generate": "prisma generate",
+    "db:validate": "prisma validate"
+  },
+  "dependencies": {
+    "@hirebit/logger": "workspace:*",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "@prisma/client": "^6.19.0",
+    "ioredis": "^5.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "@hirebit/eslint-config": "workspace:*",
+    "@hirebit/typescript-config": "workspace:*",
+    "@nestjs/cli": "^11.0.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "prisma": "^6.19.0",
+    "typescript": "^5.9.0"
+  }
+}

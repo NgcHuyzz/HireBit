@@ -1,0 +1,54 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 11.25.0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @hirebit/web lint
+      - run: pnpm --filter @hirebit/web typecheck
+      - run: pnpm --filter @hirebit/web test
+      - run: pnpm --filter @hirebit/web build
+
+  api:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://hirebit:hirebit@localhost:5432/hirebit
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 11.25.0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm db:generate
+      - run: pnpm db:validate
+      - run: pnpm --filter @hirebit/api lint
+      - run: pnpm --filter @hirebit/api typecheck
+      - run: pnpm --filter @hirebit/api test
+      - run: pnpm --filter @hirebit/api build
+
+  ai:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install -e '.[dev]'
+        working-directory: services/ai
+      - run: ruff check .
+        working-directory: services/ai
+      - run: ruff format --check .
+        working-directory: services/ai
+      - run: mypy app
+        working-directory: services/ai
+      - run: pytest
+        working-directory: services/ai

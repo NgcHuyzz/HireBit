@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: HireBit foundation health
+  version: 0.1.0
+paths:
+  /api/v1/health/live:
+    get:
+      summary: Business API process liveness
+      responses:
+        '200': { description: Process is running }
+  /api/v1/health/ready:
+    get:
+      summary: Business API PostgreSQL and Redis readiness
+      responses:
+        '200': { description: Required dependencies are ready }
+        '503': { description: One or more dependencies are unavailable }
+  /internal/v1/health/live:
+    get:
+      summary: AI API process liveness
+      responses:
+        '200': { description: Process is running }
+  /internal/v1/health/ready:
+    get:
+      summary: AI API PostgreSQL and Redis readiness
+      responses:
+        '200': { description: Required dependencies are ready }
+        '503': { description: One or more dependencies are unavailable }

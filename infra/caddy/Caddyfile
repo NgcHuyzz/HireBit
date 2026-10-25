@@ -1,0 +1,5 @@
+# Production reverse proxy routes will be added with deployment design.
+localhost {
+    reverse_proxy /api/* api:3000
+    reverse_proxy /* web:5173
+}
